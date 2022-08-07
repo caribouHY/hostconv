@@ -78,7 +78,7 @@ function inputSpreadsheet(str) {
     return str.split(/\r\n|\n/)
         .map(line => line.split('\t'))
         .map(v => ({ domain: v[0], ipv4: v[1], ipv6: v[2] }))
-        .filter(v => (checkDomain(v.domain)) && (checkIPv4(v.ipv4) || v.ipv4 === '') && (checkIPv6(v.ipv6) || v.ipv6 === '') && (v.ipv4 != v.ipv6));
+        .filter(v => (checkDomain(v.domain)) && (checkIPv4(v.ipv4) || !v.ipv4) && (checkIPv6(v.ipv6) || !v.ipv6) && (v.ipv4 || v.ipv6));
 }
 
 function outputSpreadsheet(data) {
@@ -104,7 +104,6 @@ function outputUnbound(data) {
     const indent = indentList[$('#unbound-indent').val()] || '';
     //const ttl = $('#unbound-ttl').val();
     const reverse = $('#unbound-reverse').prop("checked");
-    console.log(data);
     let output = data.reduce((acc, v) => (
         acc + (v.ipv4 ? (indent + 'local-data: \"' + v.domain + '. IN A ' + v.ipv4 + '\"\n') : '')
         + (v.ipv6 ? (indent + 'local-data: \"' + v.domain + '. IN AAAA ' + v.ipv6 + '\"\n') : '')
