@@ -14,6 +14,12 @@ const formatList = {
         input: null,
         output: outputHosts
     },
+    unbound: {
+        name: 'unbound',
+        input: null,
+        output: outputUnbound,
+        outOption: '#outopt-unbound'
+    }
 };
 
 $(() => {
@@ -22,6 +28,14 @@ $(() => {
         if (format[1].input) $('select#input-format').append(option.clone());
         if (format[1].output) $('select#output-format').append(option.clone());
     });
+
+    $('#output-format').change(() => {
+        $('.output-option').hide();
+        const format = $('#output-format').val();
+        if (formatList[format].outOption) {
+            $(formatList[format].outOption).show();
+        }
+    })
 
     $('button#translate').click(translate);
 })
@@ -71,4 +85,30 @@ function outputHosts(data) {
         + '\n' +
         data.filter(v => v.ipv6 != '')
             .reduce((acc, v) => acc + (v.ipv6 + '\t' + v.domain + '\n'), '');
+}
+
+function outputUnbound(data) {
+    const indentList = {
+        none: '',
+        tab: '\t',
+        space2: '  ',
+        space4: '    ',
+    };
+
+    const indent = indentList[$('#unbound-indent').val()] || '';
+    //const ttl = $('#unbound-ttl').val();
+    const reverse = $('#unbound-reverse').prop("checked");
+    console.log(data);
+    let output = data.reduce((acc, v) => (
+        acc + (v.ipv4 ? (indent + 'local-data: \"' + v.domain + '. IN A ' + v.ipv4 + '\"\n') : '')
+        + (v.ipv6 ? (indent + 'local-data: \"' + v.domain + '. IN AAAA ' + v.ipv6 + '\"\n') : '')
+    ), '');
+    if (reverse) {
+        output += '\n'
+            + data.filter(v => v.ipv4)
+                .reduce((acc, v) => (acc + indent + 'local-data-ptr: \"' + v.ipv4 + ' ' + v.domain + '.\"\n'), '')
+            + data.filter(v => v.ipv6)
+                .reduce((acc, v) => (acc + indent + 'local-data-ptr: \"' + v.ipv6 + ' ' + v.domain + '.\"\n'), '');
+    }
+    return output;
 }

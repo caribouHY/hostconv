@@ -29,6 +29,21 @@
     <select name="output-format" id="output-format">
     </select>
     <div>
+      <div class="output-option" id="outopt-unbound" hidden>
+        <label for="unbound-indent">インデント</label>
+        <select name="unbound-indent" id="unbound-indent">
+          <option value="none">なし</option>
+          <option value="tab">タブ</option>
+          <option value="space2">スペース2</option>
+          <option value="space4">スペース4</option>
+        </select>
+        <label for="unbound-ttl">TTL</label>
+        <input type="number" name="unbound-ttl" id="unbound-ttl" value="3600" max="86400" min="0" disabled>
+        <label for="unbound-reverse">逆引き出力</label>
+        <input type="checkbox" name="unbound-reverse" id="unbound-reverse">
+      </div>
+    </div>
+    <div>
       <textarea name="output-text" id="output-text" cols="64" rows="24"></textarea>
     </div>
   </div>
