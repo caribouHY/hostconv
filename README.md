@@ -16,6 +16,7 @@ https://caribouhy.github.io/hostconv/
 - スプレッドシート・Excel
 - hostsファイル
 - unbound (local-data)
+- NEC IXルーター
 - JSON (デバッグ用)
 
 ## スプレッドシートのフォーマット

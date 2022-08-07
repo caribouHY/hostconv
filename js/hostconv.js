@@ -19,6 +19,12 @@ const formatList = {
         input: null,
         output: outputUnbound,
         outOption: '#outopt-unbound'
+    },
+    ix: {
+        name: 'IX',
+        input: null,
+        output: outputIX,
+        outOption: '#outopt-ix'
     }
 };
 
@@ -111,4 +117,23 @@ function outputUnbound(data) {
                 .reduce((acc, v) => (acc + indent + 'local-data-ptr: \"' + v.ipv6 + ' ' + v.domain + '.\"\n'), '');
     }
     return output;
+}
+
+function outputIX(data) {
+    const cmdIP = $('#ix-ip').val();
+    const ipv4 = (cmdIP === 'both' || cmdIP === 'ipv4');
+    const ipv6 = (cmdIP === 'both' || cmdIP === 'ipv6');
+    const pre = 'dns host ';
+
+    return data.reduce((acc, v) => (
+        acc +
+        (ipv4 ? (
+            (v.ipv4 ? (pre + v.domain + ' ip ' + v.ipv4 + '\n') : '') +
+            (v.ipv6 ? (pre + v.domain + ' ip ' + v.ipv6 + '\n') : '')
+        ) : '') +
+        (ipv6 ? (
+            (v.ipv4 ? (pre + v.domain + ' ipv6 ' + v.ipv4 + '\n') : '') +
+            (v.ipv6 ? (pre + v.domain + ' ipv6 ' + v.ipv6 + '\n') : '')
+        ) : '')
+    ), '');
 }
