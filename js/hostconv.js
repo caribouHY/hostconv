@@ -12,7 +12,7 @@ const formatList = {
     hosts: {
         name: 'hosts',
         input: null,
-        output: null
+        output: outputHosts
     },
 };
 
@@ -63,4 +63,12 @@ function inputSpreadsheet(str) {
 
 function outputSpreadsheet(data) {
     return data.reduce((acc, v) => acc + (v.domain + '\t' + v.ipv4 + '\t' + v.ipv6 + '\n'), '');
+}
+
+function outputHosts(data) {
+    return data.filter(v => v.ipv4 != '')
+        .reduce((acc, v) => acc + (v.ipv4 + '\t' + v.domain + '\n'), '')
+        + '\n' +
+        data.filter(v => v.ipv6 != '')
+            .reduce((acc, v) => acc + (v.ipv6 + '\t' + v.domain + '\n'), '');
 }
