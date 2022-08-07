@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # hostconv
 
 DNS設定変換ツール <br>
