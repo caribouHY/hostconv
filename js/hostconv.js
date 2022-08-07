@@ -6,8 +6,8 @@ const formatList = {
     },
     spreadsheet: {
         name: 'スプレッドシート',
-        input: inputSpretsheet,
-        output: null
+        input: inputSpreadsheet,
+        output: outputSpreadsheet
     },
     hosts: {
         name: 'hosts',
@@ -19,8 +19,8 @@ const formatList = {
 $(() => {
     Object.entries(formatList).forEach(format => {
         const option = $('<option></option>', { value: format[0], text: format[1].name });
-        if (format[1].input) $('select#input-format').append(option);
-        if (format[1].output) $('select#output-format').append(option);
+        if (format[1].input) $('select#input-format').append(option.clone());
+        if (format[1].output) $('select#output-format').append(option.clone());
     });
 
     $('button#translate').click(translate);
@@ -54,9 +54,13 @@ function translate() {
     }
 }
 
-function inputSpretsheet(str) {
+function inputSpreadsheet(str) {
     return str.split(/\r\n|\n/)
         .map(line => line.split('\t'))
         .map(v => ({ domain: v[0], ipv4: v[1], ipv6: v[2] }))
         .filter(v => (checkDomain(v.domain)) && (checkIPv4(v.ipv4) || v.ipv4 === '') && (checkIPv6(v.ipv6) || v.ipv6 === '') && (v.ipv4 != v.ipv6));
+}
+
+function outputSpreadsheet(data) {
+    return data.reduce((acc, v) => acc + (v.domain + '\t' + v.ipv4 + '\t' + v.ipv6 + '\n'), '');
 }
