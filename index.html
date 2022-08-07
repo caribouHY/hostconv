@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hostsconv - ホスト情報変換ツール</title>
+</head>
+
+<body>
+  <h1>ホスト情報変換ツール</h1>
+  <div>
+    <h2>入力</h2>
+    <div>
+      <label for="input-format">形式</label>
+      <select name="input-format" id="input-format">
+      </select>
+    </div>
+    <div>
+      <textarea name="input-text" id="input-text" cols="64" rows="24"></textarea>
+    </div>
+    <button id="translate">変換</button>
+  </div>
+
+  <div>
+    <h2>出力</h2>
+    <label for="output-format">形式</label>
+    <select name="output-format" id="output-format">
+    </select>
+    <div>
+      <textarea name="output-text" id="output-text" cols="64" rows="24"></textarea>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="./js/hostconv.js"></script>
+</body>
+
+</html>
